@@ -19,6 +19,10 @@ calculaMedia (_, _, Notas a b c) = (a + b + c) / 3
 getMediaFromId :: Int -> Nota
 getMediaFromId n = calculaMedia (aluno n)
 
+getMediaFromClass :: Int -> Nota
+getMediaFromClass i :: 
+
+
 main = do
     putStrLn (show (getNome (aluno 4)))
     putStrLn (show (getMediaFromId 3))
