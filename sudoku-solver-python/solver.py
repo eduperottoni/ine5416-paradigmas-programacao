@@ -17,6 +17,7 @@ board = [
 # 5 - Backtrack (when the solution is not right)
 # 4 - Repeat (coming back to 1)
 
+
 def print_board(board: list[list[str]]) -> None:
     for i, row in enumerate(board):
         if i % 3 == 0 and i != 0:
@@ -30,11 +31,13 @@ def print_board(board: list[list[str]]) -> None:
         )
 
 
-def find_empty(board: list[list[str]]) -> tuple[int, int]:
+def find_empty(board: list[list[str]]) -> tuple[int, int] | None:
     for i, row in enumerate(board):
-        for j, column in row:
+        for j, column in enumerate(row):
             if column == 0:
                 return (i, j)
+            
+    return None
 
 
 def is_position_valid(board: list[list[int]], 
@@ -58,14 +61,29 @@ def is_position_valid(board: list[list[int]],
         for j, number in enumerate(line[box_x*3:((box_x + 1)*3)]):
             if number == num and position != (i, j):
                 return False
-    
-    # Check diagonal
-    if position[0] == position[1]:
-        for i, _ in enumerate(board):
-            if board[i][i] == num and i != position[0]:
-                return False
             
     return True
 
 
+def solve(board: list[list[int]]) -> bool:
+    empty_found = find_empty(board)
+    if not empty_found:
+        return True
+    
+    row, col = empty_found
+    for i in range(1, 10):
+        if is_position_valid(board, i, empty_found):
+            board[row][col] = i
+
+            if solve(board):
+                return True
+            
+            board[row][col] = 0
+    
+    return False
+    
+
+print_board(board)
+solve(board)
+print('-'*50)
 print_board(board)
