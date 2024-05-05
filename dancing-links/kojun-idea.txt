@@ -1,0 +1,19 @@
+N => size of the region
+
+Rules and their translation to M matrix
+
+Cells => each cell must contain numbers from 1 to N 
+- on the matrix: each cell will have N options, so it's N lines to each cell on the M matrix. 
+There will be also One supercolumn to each region, wich has size N and is composed by all cells on the region
+- Total of columns = Total number of cells (n * n)
+- Total of rows = SUM(N*2) for each region
+
+Orthogonally => numbers in orthogonally adjacent cells must be different
+- One supercolumn just with all possibilities to fill a cell (1 to MAX)
+- For each cell I mark with the number, I also mark this number on the up/down/left/right cell
+- Total of columns = 1 to MAX (number of cells in the worst case)
+
+Vertical adjacent => If a cell is vertically adjacent to another, the up cell shall be greater the the down cell
+- One supercolumn for each cell with columns representing all possible values in the region that the cell is inside.
+- Mark the cell possible value, look downside (getting the down cell if it is in the same region as current) and mark all values that are <= to the current speculated value
+- Total of columns = SUM(N*2) for each region
