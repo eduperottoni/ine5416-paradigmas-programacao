@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ghc  $1.hs --make -o ./bin/$1
+ghc $1.hs --make -o ./bin/$1
