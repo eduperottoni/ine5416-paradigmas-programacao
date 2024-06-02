@@ -77,7 +77,7 @@ def print_table(table: list[list[int]]):
               .replace(']', ''))
 
 
-def define_regions(regions_table: list[list[int]]):
+def define_regions(regions_table: list[list[int]]) -> list[list[tuple[int]]]:
     """
     Define regions indexing structure. It's an array indexed by the number of the region.
     Each i position will contain a list of tuples indicating the squares that are

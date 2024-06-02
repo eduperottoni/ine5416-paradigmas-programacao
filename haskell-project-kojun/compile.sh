@@ -1,3 +1,8 @@
 #!/bin/bash
 
-ghc $1.hs --make -o ./bin/$1
+# Compiles all modules into a KojunSolver executable
+cd modules
+ghc -o KojunSolver Main.hs
+
+# Executes the Solver
+exec ./KojunSolver
