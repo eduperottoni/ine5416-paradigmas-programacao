@@ -17,7 +17,7 @@ Ex.:[[0, 0, 2],
      [1, 1, 2],
      [1, 1, 2]] vai gerar uma estrutura:
 
-    [[(0,0), (1,1)],                -- Positions for region 0
+    [[(0,0), (0,1)],                -- Positions for region 0
     [(1,0), (1,1), (2,0), (2,1)],   -- Positions for region 1
     [(0,2), (1,2), (2,2)]]          -- Positions for region 2
 -}
