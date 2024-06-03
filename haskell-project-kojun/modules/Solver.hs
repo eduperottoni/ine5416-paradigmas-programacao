@@ -1,6 +1,7 @@
 module Solver(
     defineRegionsStruct,
-    findEmpty
+    findEmpty,
+    isNumberValidForThePosition
 ) where
 
 import Board(
@@ -62,3 +63,66 @@ findEmpty board = findEmptyInRows board 0
     findEmptyInRow (x:xs) colIndex
       | x == 0    = Just colIndex
       | otherwise = findEmptyInRow xs (colIndex + 1)
+
+
+-- Essa função recebe uma posição do tabuleiro e o tabuleiro de regiões
+-- Devolve a região daquela posição no tabuleiro.
+getRegionFromPosition :: Position -> Board -> Int
+getRegionFromPosition (i, j) regionsBoard = regionsBoard !! i !! j
+
+{- Essa função recebe uma posição e o tabuleiro de números
+Retorna os números que estão nas posições adjacentes à posição recebida -}
+getAdjacentNumbers :: Position -> Board -> [Int]
+getAdjacentNumbers (row, col) board =
+    -- filtra os diferentes de Nothing
+    -- mapeia os Justs para o valor em si
+    map (\(Just x) -> x) (filter (/= Nothing) [left, right, up, down])
+  where
+    left = if col > 0 then Just (board !! row !! (col - 1)) else Nothing
+    right = if col < (length (head board) - 1) then Just (board !! row !! (col + 1)) else Nothing
+    up = if row > 0 then Just (board !! (row - 1) !! col) else Nothing
+    down = if row < (length board - 1) then Just (board !! (row + 1) !! col) else Nothing
+
+{-
+Recebe um número e sua posição, o tabuleiro de números e uma outra posição da mesma região do número
+Se a posição da região for verticalmente adjacente à posição do número:
+  Se o número estiver acima do número da mesma região, deve ser maior
+  Senão, deve ser menor
+Retorna um booleano que indica essa validação
+-}
+checkVerticalAdjacencyValidity :: Int -> Position -> Board -> Position -> Bool
+checkVerticalAdjacencyValidity num (row, col) board (rRow, rCol)
+  -- Número deve ser maior que o da célula abaixo
+  | rCol == col && rRow == row + 1 = board !! rRow !! rCol < num
+  -- Número deve ser menor que o da célula acima
+  | rCol == col && rRow == row - 1 = board !! rRow !! rCol > num
+  | otherwise = True
+
+
+{-
+Função recebe um número, uma posição, o tabuleiro e a estrutura de pesquisa de regiões
+Avalia se o número é válido para aquela posição. Ou seja, se o número sendo colocado
+naquela posição obedece as regras do Kojun:
+1 - O número é único na região
+2 - O número é diferente dos números que estão na sua adjacência ortogonal
+3 - Para dois números em posições adjacentes verticais, o número da posição superior deve ser maior
+Retorna um booleano indicando se o número pode ser colocado na posição
+-}
+isNumberValidForThePosition :: Int -> Position -> Board -> RegionsStruct -> Board -> Bool
+isNumberValidForThePosition num pos board regionsStruct regionsBoard =
+    isUniqueInRegion && isDifferentFromAdjacents && isVerticalAdjacentValid
+  where
+    -- VALIDAÇÃO DA REGRA 1
+    -- Pega todas as posições nessa região
+    currentRegion = getRegionFromPosition pos regionsBoard
+    regionPositions = regionsStruct !! currentRegion
+    -- Verifica se o número é único dentro da região
+    -- Para todas as posições, aplicamos a função lambda que de retornar true
+    isUniqueInRegion = all (\(i, j) -> num /= board !! i !! j) regionPositions
+
+    -- VALIDAÇÃO DA REGRA 2
+    adjacentNumbers = getAdjacentNumbers pos board
+    isDifferentFromAdjacents = notElem num adjacentNumbers
+
+    -- VALIDAÇÃO DA REGRA 3
+    isVerticalAdjacentValid = all (\rPosition -> checkVerticalAdjacencyValidity num pos board rPosition) regionPositions

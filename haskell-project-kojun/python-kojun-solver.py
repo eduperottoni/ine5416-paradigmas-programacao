@@ -171,9 +171,9 @@ def solve(table: list[list[int]], regions_table: list[list[int]]):
             print_table(table)
             if solve(table, regions_table):
                 return True
-            
+
             table[row][col] = 0
-    
+
     return False
 
 
