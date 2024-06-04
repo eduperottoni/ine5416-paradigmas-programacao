@@ -3,8 +3,6 @@ module Solver(
 ) where
 
 import Board(
-    regionsBoard,
-    originalBoard,
     Board,
     Position,
     RegionsStruct)
