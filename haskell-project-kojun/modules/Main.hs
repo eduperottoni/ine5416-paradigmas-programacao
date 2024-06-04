@@ -2,16 +2,12 @@ module Main where
 
 import Board (originalBoard, regionsBoard)
 import Printer (printBoard)
-import Solver (defineRegionsStruct, findEmpty, isNumberValidForThePosition)
+import Solver (solve)
 
+main :: IO String
 main = do
-    let regionsStruct = defineRegionsStruct regionsBoard
-    print regionsStruct
-    let empty = findEmpty originalBoard
-    print empty
-    case empty of
-        Nothing -> putStrLn "No empty position found."
-        Just pos -> do
-            let isNumberValid = isNumberValidForThePosition 1 pos originalBoard regionsStruct regionsBoard
-            print isNumberValid
-
+    let (solvable, solvedBoard) = solve originalBoard regionsBoard
+    if solvable then
+        printBoard solvedBoard
+    else
+        putStrLn "Não hhá solução para o Kojun" >> return ""

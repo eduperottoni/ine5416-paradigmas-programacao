@@ -1,7 +1,5 @@
 module Solver(
-    defineRegionsStruct,
-    findEmpty,
-    isNumberValidForThePosition
+    solve
 ) where
 
 import Board(
@@ -126,3 +124,53 @@ isNumberValidForThePosition num pos board regionsStruct regionsBoard =
 
     -- VALIDAÇÃO DA REGRA 3
     isVerticalAdjacentValid = all (\rPosition -> checkVerticalAdjacencyValidity num pos board rPosition) regionPositions
+
+{-|
+  Tenta resolver o Kojun usando backtracking
+
+  Pega o estado atual do tabuleiro e o tabuleiro de regiões e
+  retorna uma tupla contendo um booleano indicando se o puzzle
+  foi ou não resolvido e o estado final do tabuleiro
+
+  * @table@: Estado atual do tabuleiro
+  * @regionsBoard@: Tabuleiro de regiões (o id de cada região é um inteiro)
+
+  Retorna uma tupla com um booleano indicando se o puzzle foi resolvido e o estado final do tabuleiro
+
+  Exemplo de uso:
+
+  >>> solve [[2, 0, 0], [0, 2, 4], [6, 0, 0]] [[0, 0, 1], [0, 1, 1], [1, 1, 1]]
+  (True, [[2, 3, 5], [1, 2, 4], [6, 1, 3]])
+-}
+solve :: Board -> Board -> (Bool, Board)
+solve board regionsBoard =
+    let regionsStruct = defineRegionsStruct regionsBoard
+        empty = findEmpty board
+    in case empty of
+        Nothing -> (True, board)
+        Just pos ->
+            let currentRegion = getRegionFromPosition pos regionsBoard
+                maxOfRegion = length (regionsStruct !! currentRegion)
+            in tryNumbers pos [1..maxOfRegion] board regionsStruct regionsBoard
+  where
+    tryNumbers :: Position -> [Int] -> Board -> RegionsStruct -> Board -> (Bool, Board)
+    tryNumbers pos [] board _ _ = (False, board)
+    tryNumbers pos (head:tail) board regionsStruct regionsBoard =
+      if isNumberValidForThePosition head pos board regionsStruct regionsBoard
+        then 
+          let newTable = updateBoard board pos head
+              (solved, finalTable) = solve newTable regionsBoard
+          in if solved
+               then (True, finalTable)
+               else tryNumbers pos tail board regionsStruct regionsBoard
+      else tryNumbers pos tail board regionsStruct regionsBoard
+{-
+Função auxiliar que atualiza o tabuleiro, inserindo o número na posição dada
+
+  * @board@ 
+  * @(row, col)@
+-}
+updateBoard :: Board -> Position -> Int -> Board
+updateBoard board (row, col) num =
+  -- 
+  take row board ++ [take col (board !! row) ++ [num] ++ drop (col + 1) (board !! row)] ++ drop (row + 1) board
