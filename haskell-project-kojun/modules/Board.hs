@@ -14,7 +14,7 @@ type Board = [[Int]]
 type Position = (Int, Int)
 -- RegionsStruct é uma estrutura que mapeia o id da região para as posições que estão nela
 type RegionsStruct = [[Position]]
-
+-- Possibilities é uma estrutura tridimensional de números possíveis para cada posição do puzzle
 type Possibilities = [[[Int]]]
 
 
