@@ -1,11 +1,13 @@
 module Solver(
-    solve
+    solve,
+    initializePossibilities
 ) where
 
 import Board(
     Board,
     Position,
-    RegionsStruct)
+    RegionsStruct,
+    Possibilities)
 
 {-
 Define Estrutura de Pesquisa (lista de listas)
@@ -172,3 +174,15 @@ updateBoard :: Board -> Position -> Int -> Board
 updateBoard board (row, col) num =
   -- 
   take row board ++ [take col (board !! row) ++ [num] ++ drop (col + 1) (board !! row)] ++ drop (row + 1) board
+
+
+
+-- Inicializa as possibilidades de cada célula
+initializePossibilities :: Board -> Board -> Possibilities
+initializePossibilities board regionsBoard = 
+    [ [ initializeCell (i, j) (board !! i !! j) | j <- [0..(length (head board) - 1)] ] 
+    | i <- [0..(length board - 1)] ]
+  where
+    regionsStruct = defineRegionsStruct regionsBoard
+    initializeCell (row, col) 0 = [num | num <- [1..9], isNumberValidForThePosition num (row, col) board regionsStruct regionsBoard]
+    initializeCell _ n = [n]

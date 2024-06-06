@@ -2,6 +2,7 @@ module Board (
     Board,
     Position,
     RegionsStruct,
+    Possibilities,
     generateKojun
 ) where
 
@@ -13,6 +14,8 @@ type Board = [[Int]]
 type Position = (Int, Int)
 -- RegionsStruct é uma estrutura que mapeia o id da região para as posições que estão nela
 type RegionsStruct = [[Position]]
+
+type Possibilities = [[[Int]]]
 
 
 -- EXEMPLOS DE PUZZLES PARA RESOLVER
