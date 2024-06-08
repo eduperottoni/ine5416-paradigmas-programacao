@@ -1,6 +1,7 @@
 module Solver(
     solve,
-    initializePossibilities
+    initializePossibilities,
+    defineRegionsStruct
 ) where
 
 import Board(
@@ -66,16 +67,6 @@ findEmpty board = findEmptyInRows board 0
       | x == 0    = Just colIndex
       | otherwise = findEmptyInRow xs (colIndex + 1)
 
-
--- Encontra uma célula vazia com menos possibilidades
--- findEmpty :: Possibilities -> Maybe Position
--- findEmpty possibilities =
---     let indexedPossibilities = [((i, j), cell) | (i, row) <- zip [0..] possibilities, (j, cell) <- zip [0..] row, not (null cell)]
---     in trace ("oi" ++ show indexedPossibilities) $
---         if null indexedPossibilities
---             then Nothing
---             else Just $ fst $ minimumBy (compare `on` (length . snd)) indexedPossibilities  
-
 -- Essa função recebe uma posição do tabuleiro e o tabuleiro de regiões
 -- Devolve a região daquela posição no tabuleiro.
 getRegionFromPosition :: Position -> Board -> Int
@@ -101,17 +92,8 @@ Se a posição da região for verticalmente adjacente à posição do número:
   Senão, deve ser menor
 Retorna um booleano que indica essa validação
 -}
--- checkVerticalAdjacencyValidity :: Int -> Position -> Board -> Position -> Bool
--- checkVerticalAdjacencyValidity num (row, col) board (rRow, rCol)
---   -- Número deve ser maior que o da célula abaixo
---   | rCol == col && rRow == (row + 1) = (board !! rRow !! rCol) < num
---   -- Número deve ser menor que o da célula acima
---   | rCol == col && rRow == (row - 1) = (board !! rRow !! rCol) > num
---   | otherwise = True
-
-
-checkVerticalAdjacencyValidity :: Int -> Position -> Board -> Position -> Bool
-checkVerticalAdjacencyValidity num (row, col) board (rPosRow, rPosCol)
+checkVerticalAdjacencyValidityFor :: Int -> Position -> Board -> Position -> Bool
+checkVerticalAdjacencyValidityFor num (row, col) board (rPosRow, rPosCol)
   | row == rPosRow && col == rPosCol = True
   | rPosCol == col =
       let cellValue = board !! rPosRow !! rPosCol
@@ -121,6 +103,35 @@ checkVerticalAdjacencyValidity num (row, col) board (rPosRow, rPosCol)
             GT -> if cellValue == 0 || cellValue < num then True else False
       in isValid
   | otherwise = True
+
+
+checkVerticalAdjacencyValidity :: Int -> Position -> Board -> Position -> Bool
+checkVerticalAdjacencyValidity num (row, col) board (rRow, rCol)
+  -- Número deve ser maior que o da célula abaixo
+  | rCol == col && rRow == (row + 1) = (board !! rRow !! rCol) < num
+  -- Número deve ser menor que o da célula acima
+  | rCol == col && rRow == (row - 1) = (board !! rRow !! rCol) > num
+  | otherwise = True
+
+
+isNumberValidForThePositionFor :: Int -> Position -> Board -> RegionsStruct -> Board -> Bool
+isNumberValidForThePositionFor num pos board regionsStruct regionsBoard =
+    isUniqueInRegion && isDifferentFromAdjacents && isVerticalAdjacentValid
+  where
+    -- VALIDAÇÃO DA REGRA 1
+    -- Pega todas as posições nessa região
+    currentRegion = getRegionFromPosition pos regionsBoard
+    regionPositions = regionsStruct !! currentRegion
+    -- Verifica se o número é único dentro da região
+    -- Para todas as posições, aplicamos a função lambda que de retornar true
+    isUniqueInRegion = all (\(i, j) -> num /= board !! i !! j) regionPositions
+
+    -- VALIDAÇÃO DA REGRA 2
+    adjacentNumbers = getAdjacentNumbers pos board
+    isDifferentFromAdjacents = notElem num adjacentNumbers
+
+    -- VALIDAÇÃO DA REGRA 3
+    isVerticalAdjacentValid = all (\rPosition -> checkVerticalAdjacencyValidityFor num pos board rPosition) regionPositions
 
 {-
 Função recebe um número, uma posição, o tabuleiro e a estrutura de pesquisa de regiões
@@ -157,8 +168,8 @@ isNumberValidForThePosition num pos board regionsStruct regionsBoard =
   retorna uma tupla contendo um booleano indicando se o puzzle
   foi ou não resolvido e o estado final do tabuleiro
 
-  * @table@: Estado atual do tabuleiro
-  * @regionsBoard@: Tabuleiro de regiões (o id de cada região é um inteiro)
+  * table: Estado atual do tabuleiro
+  * regionsBoard: Tabuleiro de regiões (o id de cada região é um inteiro)
 
   Retorna uma tupla com um booleano indicando se o puzzle foi resolvido e o estado final do tabuleiro
 
@@ -167,16 +178,16 @@ isNumberValidForThePosition num pos board regionsStruct regionsBoard =
   >>> solve [[2, 0, 0], [0, 2, 4], [6, 0, 0]] [[0, 0, 1], [0, 1, 1], [1, 1, 1]]
   (True, [[2, 3, 5], [1, 2, 4], [6, 1, 3]])
 -- -}
--- solve :: Board -> Board -> (Bool, Board)
--- solve board regionsBoard =
---     let regionsStruct = defineRegionsStruct regionsBoard
---         empty = findEmpty board
+-- solve :: Board -> Board -> Possibilities -> RegionsStruct -> (Bool, Board)
+-- solve board regionsBoard possibilities regionsStruct =
+--     let empty = findEmpty board
 --     in case empty of
 --         Nothing -> (True, board)
---         Just pos ->
---             let currentRegion = getRegionFromPosition pos regionsBoard
---                 maxOfRegion = length (regionsStruct !! currentRegion)
---             in tryNumbers pos [1..maxOfRegion] board regionsStruct regionsBoard
+--         Just (row, col) ->
+--             let currentRegion = getRegionFromPosition (row, col) regionsBoard
+--                 emptyPossibilities = possibilities !! row !! col
+--                 logMessage = "Empty position at (" ++ show row ++ ", " ++ show col ++ ") has possibilities: " ++ show emptyPossibilities
+--             in trace logMessage $ tryNumbers (row, col) emptyPossibilities board regionsStruct regionsBoard
 --   where
 --     tryNumbers :: Position -> [Int] -> Board -> RegionsStruct -> Board -> (Bool, Board)
 --     tryNumbers pos [] board _ _ = (False, board)
@@ -184,98 +195,43 @@ isNumberValidForThePosition num pos board regionsStruct regionsBoard =
 --       if isNumberValidForThePosition head pos board regionsStruct regionsBoard
 --         then 
 --           let newTable = updateBoard board pos head
---               (solved, finalTable) = solve newTable regionsBoard
+--               (solved, finalTable) = solve newTable regionsBoard possibilities regionsStruct
 --           in if solved
 --                then (True, finalTable)
 --                else tryNumbers pos tail board regionsStruct regionsBoard
 --       else tryNumbers pos tail board regionsStruct regionsBoard
 
-
-
-
-
-solve :: Board -> Board -> (Bool, Board)
-solve board regionsBoard =
-    let regionsStruct = defineRegionsStruct regionsBoard
-        possibilities = initializePossibilities board regionsBoard
-    in solveWithPossibilities board regionsBoard regionsStruct possibilities
-
--- solveWithPossibilities :: Board -> Board -> RegionsStruct -> Possibilities -> (Bool, Board)
--- solveWithPossibilities board regionsBoard regionsStruct possibilities =
---     case findEmpty possibilities of
---         Nothing -> (True, board)
---         Just pos ->
---             let currentRegion = getRegionFromPosition pos regionsBoard
---                 possibleValues = possibilities !! fst pos !! snd pos
---             in trace ("Solving cell at position " ++ show pos ++ " with possible values: " ++ show possibleValues) $
---                tryNumbers pos possibleValues board regionsStruct regionsBoard possibilities
---   where
---     tryNumbers :: Position -> [Int] -> Board -> RegionsStruct -> Board -> Possibilities -> (Bool, Board)
---     tryNumbers pos [] board _ _ _ = (False, board)
---     tryNumbers pos (head:tail) board regionsStruct regionsBoard possibilities =
---       if isNumberValidForThePosition head pos board regionsStruct regionsBoard
---         then 
---           let newBoard = updateBoard board pos head
---               newPossibilities = updatePossibilities possibilities pos head regionsStruct regionsBoard
---               (solved, finalBoard) = solveWithPossibilities newBoard regionsBoard regionsStruct newPossibilities
---           in if solved
---                then (True, finalBoard)
---                else tryNumbers pos tail board regionsStruct regionsBoard possibilities
---       else tryNumbers pos tail board regionsStruct regionsBoard possibilities
-
-solveWithPossibilities :: Board -> Board -> RegionsStruct -> Possibilities -> (Bool, Board)
-solveWithPossibilities board regionsBoard regionsStruct possibilities =
-    case findEmpty board of
-        Nothing -> (True, board)
-        Just pos ->
-            let currentRegion = getRegionFromPosition pos regionsBoard
-                possibleValues = possibilities !! fst pos !! snd pos
-                message = "Solving cell at position " ++ show pos ++ " with possible values: " ++ show possibleValues
-            in trace message $
-               tryNumbers message pos possibleValues board regionsStruct regionsBoard possibilities
+solve :: Board -> Board -> Possibilities -> RegionsStruct -> (Bool, Board)
+solve board regionsBoard possibilities regionsStruct =
+    let empty = findEmpty board
+    in case empty of
+        Nothing -> trace "No empty positions found, puzzle solved!" (True, board)
+        Just (row, col) ->
+            let currentRegion = getRegionFromPosition (row, col) regionsBoard
+                emptyPossibilities = possibilities !! row !! col
+                logMessage = "Empty position at (" ++ show row ++ ", " ++ show col ++ ") has possibilities: " ++ show emptyPossibilities
+            in trace logMessage $ tryNumbers (row, col) emptyPossibilities board regionsStruct regionsBoard
   where
-    tryNumbers :: String -> Position -> [Int] -> Board -> RegionsStruct -> Board -> Possibilities -> (Bool, Board)
-    tryNumbers message pos [] board _ _ _ = (False, board)
-    tryNumbers message pos (head:tail) board regionsStruct regionsBoard possibilities =
-      let newMessage = message ++ ", trying value: " ++ show head
-      in trace newMessage $
-         if isNumberValidForThePosition head pos board regionsStruct regionsBoard
-            then 
-              let newBoard = updateBoard board pos head
-                  newPossibilities = updatePossibilities possibilities pos head regionsStruct regionsBoard
-                  (solved, finalBoard) = solveWithPossibilities newBoard regionsBoard regionsStruct newPossibilities
-              in if solved
-                   then (True, finalBoard)
-                   else tryNumbers message pos tail board regionsStruct regionsBoard possibilities
-            else tryNumbers message pos tail board regionsStruct regionsBoard possibilities
+    tryNumbers :: Position -> [Int] -> Board -> RegionsStruct -> Board -> (Bool, Board)
+    tryNumbers pos [] board _ _ = trace ("No valid numbers left for position " ++ show pos) (False, board)
+    tryNumbers pos (head:tail) board regionsStruct regionsBoard =
+      let traceMessage = "Trying number " ++ show head ++ " at position " ++ show pos
+      in trace traceMessage $
+        if isNumberValidForThePosition head pos board regionsStruct regionsBoard
+          then 
+            let newTable = updateBoard board pos head
+                (solved, finalTable) = solve newTable regionsBoard possibilities regionsStruct
+            in if solved
+                 then trace ("Number " ++ show head ++ " at position " ++ show pos ++ " led to a solution!") (True, finalTable)
+                 else trace ("Backtracking from position " ++ show pos ++ " with number " ++ show head) tryNumbers pos tail board regionsStruct regionsBoard
+          else trace ("Number " ++ show head ++ " at position " ++ show pos ++ " is not valid") tryNumbers pos tail board regionsStruct regionsBoard
 
-
-updatePossibilities :: Possibilities -> Position -> Int -> RegionsStruct -> Board -> Possibilities
-updatePossibilities possibilities (row, col) num regionsStruct regionsBoard =
-    let updatedRow = updateRow (possibilities !! row) col num
-        updatedPossibilities = take row possibilities ++ [updatedRow] ++ drop (row + 1) possibilities
-        currentRegion = getRegionFromPosition (row, col) regionsBoard
-        regionPositions = regionsStruct !! currentRegion
-        message1 = "Updating possibilities for position (" ++ show row ++ ", " ++ show col ++ ") with number " ++ show num
-        message2 = "Region positions: " ++ show regionPositions
-        adjacentPositions = [(r, c) | r <- [row - 1, row + 1], c <- [col - 1, col + 1], r >= 0, c >= 0, r < length possibilities, c < length (head possibilities)]
-    in trace (message1 ++ "\n" ++ message2) $
-       foldr (\pos acc -> updateCell acc pos num) updatedPossibilities (adjacentPositions ++ regionPositions)
-  where
-    updateRow row col num = take col row ++ [[]] ++ drop (col + 1) row
-    updateCell possibilities (r, c) num = 
-        let row = possibilities !! r
-            cell = row !! c
-            newCell = if null cell then cell else delete num cell
-            message = "Updating cell at position (" ++ show r ++ ", " ++ show c ++ ") with new possibilities: " ++ show newCell
-        in trace message $
-           take r possibilities ++ [take c row ++ [newCell] ++ drop (c + 1) row] ++ drop (r + 1) possibilities
 
 {-
 Função auxiliar que atualiza o tabuleiro, inserindo o número na posição dada
 
-  * @board@ 
-  * @(row, col)@
+  * board: Tabuleiro a ser atualizado
+  * (row, col): Posição do tabuleiro que o número será inserido
 -}
 updateBoard :: Board -> Position -> Int -> Board
 updateBoard board (row, col) num =
@@ -294,6 +250,6 @@ initializePossibilities board regionsBoard =
     initializeCell (row, col) 0 =
       let currentRegion = getRegionFromPosition (row, col) regionsBoard
           maxOfRegion = length (regionsStruct !! currentRegion)
-          possibleNumbers = filter (\num -> isNumberValidForThePosition num (row, col) board regionsStruct regionsBoard) [1..maxOfRegion]
+          possibleNumbers = filter (\num -> isNumberValidForThePositionFor num (row, col) board regionsStruct regionsBoard) [1..maxOfRegion]
       in possibleNumbers
     initializeCell (row, col) n = []
