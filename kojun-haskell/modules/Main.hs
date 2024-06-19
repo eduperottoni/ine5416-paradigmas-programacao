@@ -6,7 +6,7 @@ import Solver (solve, initializePossibilities, defineRegionsStruct)
 
 main :: IO String
 main = do
-    let (originalBoard, regionsBoard) = generateKojun 10
+    let (originalBoard, regionsBoard) = generateKojun 17
     let regionsStruct = defineRegionsStruct regionsBoard
     let possibilities = initializePossibilities originalBoard regionsBoard regionsStruct
         
