@@ -1,6 +1,7 @@
 (defpackage :solver
   (:use :cl)
-  (:export :define-regions-struct :get-region-from-position :get-adjacent-numbers :check-vertical-adjacency-validity :initialize-possibilities))
+  (:import-from :printer :print-board)
+  (:export :define-regions-struct :get-region-from-position :get-adjacent-numbers :check-vertical-adjacency-validity :initialize-possibilities :solve))
 
 (in-package :solver)
 
@@ -91,3 +92,78 @@
                                      collect num)))
         possible-numbers)
       '()))  ; Return an empty list if the cell already has a number
+
+
+(defun solve (board regions-board possibilities regions-struct)
+  (format t "Solving board:~%")
+  (print-board board)
+  (let ((empty (find-empty board)))
+    (if (null empty)
+        (progn
+          (format t "No empty positions found, puzzle solved!~%")
+          (list t board)) ; Return a list with two elements
+        (let* ((row (car empty))
+               (col (cdr empty))
+               (current-region (get-region-from-position (cons row col) regions-board))
+               (row-possibilities (nth row possibilities))
+               (empty-possibilities (if (listp row-possibilities) (nth col row-possibilities) nil)))
+          (format t "Empty position: (~a, ~a)~%" row col)
+          (format t "Current region: ~a~%" current-region)
+          (format t "Possibilities for row ~a: ~a~%" row row-possibilities)
+          (format t "Possibilities for cell (~a, ~a): ~a~%" row col empty-possibilities)
+          (if (not (listp empty-possibilities))
+              (progn
+                (format t "Error: Possibilities for position (~a, ~a) are not a list: ~a~%" row col empty-possibilities)
+                (list nil board)) ; Return a list with two elements
+              (try-numbers (cons row col) empty-possibilities board regions-struct regions-board possibilities))))))
+
+(defun try-numbers (pos possible-values-for-position board regions-struct regions-board possibilities)
+  (format t "Trying numbers for position: ~a with possible-values-for-position: ~a~%" pos possible-values-for-position)
+  (if (null possible-values-for-position)
+      (values nil board) ; Return a list with two elements
+      (let ((head (car possible-values-for-position))
+            (tail (cdr possible-values-for-position)))
+        (if (is-number-valid-for-the-position head pos board regions-struct regions-board nil)
+            (progn
+              (format t "Number ~a is valid for position ~a. Updating board.~%" head pos)
+              (let* ((new-board (update-board board pos head))
+                     (result (solve new-board regions-board possibilities regions-struct)))
+                (if (car result)
+                    result
+                    (progn
+                      (format t "Backtracking from position ~a with number ~a~%" pos head)
+                      (try-numbers pos tail board regions-struct regions-board possibilities)))))
+            (progn
+              (format t "Number ~a is not valid for position ~a. Trying next possibility.~%" head pos)
+              (try-numbers pos tail board regions-struct regions-board possibilities))))))
+
+(defun update-board (board pos value)
+  "Updates the board with the given value at the specified position."
+  (let ((row (car pos))
+        (col (cdr pos)))
+    (loop for i from 0 below (length board)
+          collect (if (= i row)
+                      (loop for j from 0 below (length (nth i board))
+                            collect (if (= j col) value (nth j (nth i board))))
+                      (nth i board)))))
+
+(defun find-empty (board)
+  "Iterates through each position on the board, looking for the first position with a zero (the first empty cell on the board)."
+  (find-empty-in-rows board 0))
+
+(defun find-empty-in-rows (rows row-index)
+  "Iterates over the rows of the board."
+  (if (null rows)
+      nil
+      (let ((col-index (find-empty-in-row (car rows) 0)))
+        (if col-index
+            (cons row-index col-index)
+            (find-empty-in-rows (cdr rows) (1+ row-index))))))
+
+(defun find-empty-in-row (row col-index)
+  "Iterates within the row, returning the column index of the first zero."
+  (if (null row)
+      nil
+      (if (zerop (car row))
+          col-index
+          (find-empty-in-row (cdr row) (1+ col-index)))))
