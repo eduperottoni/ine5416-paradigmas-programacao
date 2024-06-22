@@ -5,7 +5,6 @@
   (:import-from :solver :define-regions-struct :get-region-from-position :get-adjacent-numbers :check-vertical-adjacency-validity :is-number-valid-for-the-position :initialize-possibilities :solve :find-empty))
 
 (in-package :main)
-;; Example usage
 
 (defun main()
     ;; (defparameter *regions-board*
