@@ -7,26 +7,25 @@
 
 "Aplica func a cada elemento de lst, concatenando os resultados com sep.
 
-Argumentos:
-func - Função a ser aplicada a cada elemento da lista.
-lst - Lista de elementos.
-sep - Separador para concatenar os resultados.
+Parâmetros:
+func: Função a ser aplicada a cada elemento da lista.
+lst: Lista de elementos.
+sep: Separador para concatenar os resultados.
 
-Retorna:
-Uma string resultante da aplicação de FUNC a cada elemento de LST, concatenada com SEP."
+Retorno:
+Uma string resultante da aplicação de func a cada elemento de lst, concatenada com sep."
 (defun mapconcat (func lst sep)
-  (let ((result ""))
-    (dolist (x lst (subseq result 0 (- (length result) (length sep))))
-      (setq result (concatenate 'string result (funcall func x) sep)))))
+  (reduce (lambda (a b) (concatenate 'string a sep b))
+          (mapcar func lst)))
 
 
 
 "Converte uma lista de inteiros para uma string. Utiliza a função mapconcat para isso.
 
-Argumentos:
-lst - Lista de inteiros.
+Parâmetros:
+lst: Lista de inteiros.
 
-Retorna:
+Retorno:
 Uma string representando os inteiros na lista, separados por espaços."
 (defun list-to-str (lst)
   (mapconcat #'write-to-string lst " "))
@@ -35,13 +34,11 @@ Uma string representando os inteiros na lista, separados por espaços."
 
 "Imprime o tabuleiro, onde cada linha é uma lista de inteiros.
 
-Argumentos:
-board - Lista de listas de inteiros, representando o tabuleiro.
+Parâmetros:
+board: Lista de listas de inteiros, representando o tabuleiro.
 
-Retorna:
-Uma string vazia se o tabuleiro estiver vazio. Caso contrário, imprime cada linha do tabuleiro, recursivamente"
+Retorno:
+Imprime cada linha do tabuleiro."
 (defun print-board (board)
-  (if (null board)
-      (progn
-        (format t "~a~%" (list-to-str (first board)))
-        (print-board (rest board)))))
+  (dolist (row board)
+    (format t "~a~%" (list-to-str row))))

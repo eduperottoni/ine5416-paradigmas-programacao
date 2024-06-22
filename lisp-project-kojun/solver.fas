@@ -24,7 +24,23 @@
    #17Y(00 00 00 00 00 00 00 00 20 01 DA 31 F6 0F 01 19 01)
    ("SOLVER" |COMMON-LISP|::|*PACKAGE*|)
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|9 21 (DEFUN DEFINE-REGIONS-STRUCT (REGIONS-BOARD) ...)-3|
+#Y(#:|9 17 "Define a estrutura de busca baseada nas regiões do tabuleiro.\n
+Cada índice da lista indica o ID da região, e cada lista no índice i contém\n
+as posições no tabuleiro que estão na região i.\n\n
+Parâmetros:\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n\n
+Retorno:\n
+Uma lista onde cada índice contém as posições do tabuleiro na respectiva região."-3|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Define a estrutura de busca baseada nas regiões do tabuleiro.\n
+Cada índice da lista indica o ID da região, e cada lista no índice i contém\n
+as posições no tabuleiro que estão na região i.\n\n
+Parâmetros:\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n\n
+Retorno:\n
+Uma lista onde cada índice contém as posições do tabuleiro na respectiva região.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|18 27 (DEFUN DEFINE-REGIONS-STRUCT (REGIONS-BOARD) ...)-4|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|DEFINE-REGIONS-STRUCT| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|DEFINE-REGIONS-STRUCT|
@@ -42,13 +58,25 @@
            (|SOLVER|::|STRUCT| |COMMON-LISP|::|POSITION|) |COMMON-LISP|::|NIL|
            1))
        (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
-       (|SOLVER|::|REGIONS-BOARD|)
-       "Define the search structure based on the regions of the board.\n
-  Each index of the list indicates the region id, and each list at index i contains\n
-  the positions on the board that are in region i."
-       1))
+       (|SOLVER|::|REGIONS-BOARD|) |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|23 30 (DEFUN INSERT-POSITION-ON-STRUCT (POSITION STRUCT REGIONS-BOARD) ...)-4|
+#Y(#:|31 39 "Insere a posição (i,j) no índice correto da estrutura de pesquisa.\n\n
+Parâmetros:\n
+position: Posição (i, j) a ser inserida.\n
+struct: Estrutura onde a posição será inserida.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n\n
+Retorno:\n
+A estrutura atualizada com a posição inserida."-5|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Insere a posição (i,j) no índice correto da estrutura de pesquisa.\n\n
+Parâmetros:\n
+position: Posição (i, j) a ser inserida.\n
+struct: Estrutura onde a posição será inserida.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n\n
+Retorno:\n
+A estrutura atualizada com a posição inserida.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|40 46 (DEFUN INSERT-POSITION-ON-STRUCT (POSITION STRUCT REGIONS-BOARD) ...)-6|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|INSERT-POSITION-ON-STRUCT| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|INSERT-POSITION-ON-STRUCT|
@@ -57,9 +85,23 @@
             7B 01 AE 33 03 24 19 09)
        (0.) (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
        (|COMMON-LISP|::|POSITION| |SOLVER|::|STRUCT| |SOLVER|::|REGIONS-BOARD|)
-       "Insert the position (i,j) into the correct index of the structure." 1))
+       |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|33 37 (DEFUN GET-REGION-FROM-POSITION (POSITION REGIONS-BOARD) ...)-5|
+#Y(#:|50 57 "Obtém a região para a posição dada no tabuleiro de regiões.\n\n
+Parâmetros:\n
+position: Posição (i, j) para a qual se deseja obter a região.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n\n
+Retorno:\n
+O ID da região correspondente à posição fornecida."-7|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Obtém a região para a posição dada no tabuleiro de regiões.\n\n
+Parâmetros:\n
+position: Posição (i, j) para a qual se deseja obter a região.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n\n
+Retorno:\n
+O ID da região correspondente à posição fornecida.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|58 61 (DEFUN GET-REGION-FROM-POSITION (POSITION REGIONS-BOARD) ...)-8|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|GET-REGION-FROM-POSITION| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|GET-REGION-FROM-POSITION|
@@ -67,9 +109,23 @@
             05)
        () (|COMMON-LISP|::|T| |COMMON-LISP|::|NIL| |COMMON-LISP|::|NIL|)
        (|COMMON-LISP|::|POSITION| |SOLVER|::|REGIONS-BOARD|)
-       "Gets the region for the given position from the regions board." 1))
+       |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|40 48 (DEFUN GET-ADJACENT-NUMBERS (POSITION BOARD) ...)-6|
+#Y(#:|65 72 "Obtém os números adjacentes à posição dada no tabuleiro (acima, abaixo, esquerda e direita).\n\n
+Parâmetros:\n
+position: Posição (i, j) para a qual se deseja obter os números adjacentes.\n
+board: Tabuleiro representado como uma lista de listas de números.\n\n
+Retorno:\n
+Uma lista com os números adjacentes à posição fornecida."-9|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Obtém os números adjacentes à posição dada no tabuleiro (acima, abaixo, esquerda e direita).\n\n
+Parâmetros:\n
+position: Posição (i, j) para a qual se deseja obter os números adjacentes.\n
+board: Tabuleiro representado como uma lista de listas de números.\n\n
+Retorno:\n
+Uma lista com os números adjacentes à posição fornecida.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|73 80 (DEFUN GET-ADJACENT-NUMBERS (POSITION BOARD) ...)-10|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|GET-ADJACENT-NUMBERS| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|GET-ADJACENT-NUMBERS|
@@ -79,10 +135,29 @@
             91 01 31 08 AF 96 05 B4 71 A1 31 A1 14 63 B0 B0 B0 B0 7B 04 38 07
             32 69 19 09)
        () (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
-       (|COMMON-LISP|::|POSITION| |SOLVER|::|BOARD|)
-       "Gets the numbers adjacent to the given position in the board." 1))
+       (|COMMON-LISP|::|POSITION| |SOLVER|::|BOARD|) |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|51 60 (DEFUN CHECK-VERTICAL-ADJACENCY-VALIDITY (NUM POSITION BOARD ...) ...)-7|
+#Y(#:|84 94 "Verifica a validade da adjacência vertical para o número e posição fornecidos.\n\n
+Parâmetros:\n
+num: Número a ser verificado.\n
+position: Posição (i, j) onde o número será colocado.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+r-position: Posição adjacente para verificar a validade.\n\n
+Retorno:\n
+T se a adjacência vertical for válida (número na posição superior é maior que o  número na posição inferior)\n
+Caso contrário, NIL."-11|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Verifica a validade da adjacência vertical para o número e posição fornecidos.\n\n
+Parâmetros:\n
+num: Número a ser verificado.\n
+position: Posição (i, j) onde o número será colocado.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+r-position: Posição adjacente para verificar a validade.\n\n
+Retorno:\n
+T se a adjacência vertical for válida (número na posição superior é maior que o  número na posição inferior)\n
+Caso contrário, NIL.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|95 103 (DEFUN CHECK-VERTICAL-ADJACENCY-VALIDITY (NUM POSITION BOARD ...) ...)-12|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|CHECK-VERTICAL-ADJACENCY-VALIDITY|
     |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
@@ -94,10 +169,31 @@
        () (|COMMON-LISP|::|T| |COMMON-LISP|::|NIL| |COMMON-LISP|::|NIL|)
        (|SOLVER|::|NUM| |COMMON-LISP|::|POSITION| |SOLVER|::|BOARD|
         |SOLVER|::|R-POSITION|)
-       "Checks the vertical adjacency validity for the given number and position."
-       1))
+       |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|63 77 (DEFUN IS-NUMBER-VALID-FOR-THE-POSITION (NUM POSITION BOARD ...) ...)-8|
+#Y(#:|107 118 "Verifica se o número é válido para a posição fornecida no tabuleiro.\n\n
+Parâmetros:\n
+num: Número a ser verificado.\n
+position: Posição (i, j) onde o número será colocado.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+before-run: Booleano indicando se a verificação está sendo feita antes da execução principal.\n\n
+Retorno:\n
+T se o número for válido para a posição, caso contrário, NIL."-13|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Verifica se o número é válido para a posição fornecida no tabuleiro.\n\n
+Parâmetros:\n
+num: Número a ser verificado.\n
+position: Posição (i, j) onde o número será colocado.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+before-run: Booleano indicando se a verificação está sendo feita antes da execução principal.\n\n
+Retorno:\n
+T se o número for válido para a posição, caso contrário, NIL.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|119 132 (DEFUN IS-NUMBER-VALID-FOR-THE-POSITION (NUM POSITION BOARD ...) ...)-14|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|IS-NUMBER-VALID-FOR-THE-POSITION|
     |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
@@ -124,9 +220,27 @@
        (|SOLVER|::|NUM| |COMMON-LISP|::|POSITION| |SOLVER|::|BOARD|
         |SOLVER|::|REGIONS-STRUCT| |SOLVER|::|REGIONS-BOARD|
         |SOLVER|::|BEFORE-RUN|)
-       "Checks if the number is valid for the given position in the board." 1))
+       |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|80 84 (DEFUN INITIALIZE-POSSIBILITIES (BOARD REGIONS-BOARD REGIONS-STRUCT) ...)-9|
+#Y(#:|136 145 "Inicializa as possibilidades para cada célula do tabuleiro.\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n\n
+Retorno:\n
+Estrutura tridimensional de possibilidades para cada célula do tabuleiro.\n
+Para cada posição do tabuleiro, há uma lista de possibilidades dado o tabuleiro inicial"-15|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Inicializa as possibilidades para cada célula do tabuleiro.\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n\n
+Retorno:\n
+Estrutura tridimensional de possibilidades para cada célula do tabuleiro.\n
+Para cada posição do tabuleiro, há uma lista de possibilidades dado o tabuleiro inicial")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|146 150 (DEFUN INITIALIZE-POSSIBILITIES (BOARD REGIONS-BOARD REGIONS-STRUCT) ...)-16|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|INITIALIZE-POSSIBILITIES| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|INITIALIZE-POSSIBILITIES|
@@ -139,7 +253,27 @@
        (|SOLVER|::|BOARD| |SOLVER|::|REGIONS-BOARD| |SOLVER|::|REGIONS-STRUCT|)
        |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|86 94 (DEFUN INITIALIZE-CELL (POS VALUE BOARD ...) ...)-10|
+#Y(#:|154 164 "Inicializa as possibilidades para uma célula específica do tabuleiro.\n\n
+Parâmetros:\n
+pos: Posição (i, j) da célula.\n
+value: Valor da célula.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n\n
+Retorno:\n
+Uma lista de números possíveis para a célula, ou uma lista vazia se a célula já contiver um número."-17|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Inicializa as possibilidades para uma célula específica do tabuleiro.\n\n
+Parâmetros:\n
+pos: Posição (i, j) da célula.\n
+value: Valor da célula.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n\n
+Retorno:\n
+Uma lista de números possíveis para a célula, ou uma lista vazia se a célula já contiver um número.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|165 173 (DEFUN INITIALIZE-CELL (POS VALUE BOARD ...) ...)-18|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|INITIALIZE-CELL| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|INITIALIZE-CELL|
@@ -153,53 +287,44 @@
         |SOLVER|::|REGIONS-BOARD| |SOLVER|::|REGIONS-STRUCT|)
        |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|94 118 (DEFUN SOLVE (BOARD REGIONS-BOARD POSSIBILITIES ...) ...)-11|
+#Y(#:|173 187 "Resolve o tabuleiro dado.\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+possibilities: Lista de listas de possibilidades para cada célula do tabuleiro.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n\n
+Retorno:\n
+Uma lista com dois elementos, onde o primeiro é um booleano indicando se a solução foi encontrada,\n
+e o segundo é o tabuleiro resolvido ou o estado atual do tabuleiro se não resolvido."-19|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Resolve o tabuleiro dado.\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+possibilities: Lista de listas de possibilidades para cada célula do tabuleiro.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n\n
+Retorno:\n
+Uma lista com dois elementos, onde o primeiro é um booleano indicando se a solução foi encontrada,\n
+e o segundo é o tabuleiro resolvido ou o estado atual do tabuleiro se não resolvido.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|188 209 (DEFUN SOLVE (BOARD REGIONS-BOARD POSSIBILITIES ...) ...)-20|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|SOLVE| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|SOLVE|
-       #125Y(00 00 00 00 04 00 00 00 26 05 DA 6B 01 33 01 15 B0 2F 02 B0 6F 03
-             93 00 80 48 94 00 95 01 AD 9E 7A B3 70 05 AE B3 71 A1 AC 8F 1D 04
-             AE AD 31 A1 14 E0 6B 01 B2 B2 33 03 15 E1 6B 01 B0 33 02 15 E2 6B
-             01 B2 B0 33 03 15 E3 6B 01 B2 B2 B0 33 04 15 AC 8F 1D 19 B0 A1 7A
-             AD B8 B6 B9 B9 2D 06 0B 19 0B DE 6B 01 33 01 15 64 B2 61 02 19 06
-             E4 6B 01 B2 B2 B0 33 04 15 63 B7 61 02 19 0B)
-       (#Y(|SOLVER|::|SOLVE-1|
-           #23Y(00 00 00 00 01 00 00 00 21 17 00 10 00 DB B2 38 02 31 95 A1 11
-                19 03)
-           (|SYSTEM|::|*FORMAT-CS*| "Solving board:\n")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        |COMMON-LISP|::|*STANDARD-OUTPUT*| |PRINTER|::|PRINT-BOARD|
-        |SOLVER|::|FIND-EMPTY|
-        #Y(|SOLVER|::|SOLVE-2|
+       #83Y(00 00 00 00 04 00 00 00 26 05 B0 6F 00 93 00 28 94 00 95 01 AD 9E
+            7A B3 30 03 AD B2 71 A1 AC 8F 1D 04 AD AD 31 A1 14 AC 8F 1D 19 AF
+            A0 7A AD B7 B5 B8 B8 2D 06 05 19 0A DB 6B 02 33 01 15 64 B2 61 02
+            19 06 DE 6B 02 B1 B1 B0 33 04 15 63 B6 61 02 19 0A)
+       (|SOLVER|::|FIND-EMPTY|
+        #Y(|SOLVER|::|SOLVE-1|
            #23Y(00 00 00 00 01 00 00 00 21 17 00 10 00 DB B2 38 02 31 95 A1 11
                 19 03)
            (|SYSTEM|::|*FORMAT-CS*|
-            "No empty positions found, puzzle solved!\n")
+            "\n
+No empty positions found, puzzle solved!\n")
            (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        |SOLVER|::|GET-REGION-FROM-POSITION|
-        #Y(|SOLVER|::|SOLVE-3|
-           #43Y(00 00 00 00 03 00 00 00 21 19 00 10 00 DB B4 38 02 31 95 B2 B4
-                31 90 DC B4 38 02 31 95 B1 B4 31 90 DD B4 38 02 31 95 A1 11 19
-                05)
-           (|SYSTEM|::|*FORMAT-CS*| "Empty position: (" ", " ")\n")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        #Y(|SOLVER|::|SOLVE-4|
-           #30Y(00 00 00 00 02 00 00 00 21 18 00 10 00 DB B3 38 02 31 95 B1 B3
-                31 90 B2 31 97 A1 11 19 04)
-           (|SYSTEM|::|*FORMAT-CS*| "Current region: ")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        #Y(|SOLVER|::|SOLVE-5|
-           #40Y(00 00 00 00 03 00 00 00 21 19 00 10 00 DB B4 38 02 31 95 B2 B4
-                31 90 DC B4 38 02 31 95 B1 B4 31 90 B3 31 97 A1 11 19 05)
-           (|SYSTEM|::|*FORMAT-CS*| "Possibilities for row " ": ")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        #Y(|SOLVER|::|SOLVE-6|
-           #50Y(00 00 00 00 04 00 00 00 21 1A 00 10 00 DB B5 38 02 31 95 B3 B5
-                31 90 DC B5 38 02 31 95 B2 B5 31 90 DD B5 38 02 31 95 B1 B5 31
-                90 B4 31 97 A1 11 19 06)
-           (|SYSTEM|::|*FORMAT-CS*| "Possibilities for cell (" ", " "): ")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        #Y(|SOLVER|::|SOLVE-7|
+        |COMMON-LISP|::|*STANDARD-OUTPUT*| |SOLVER|::|GET-REGION-FROM-POSITION|
+        #Y(|SOLVER|::|SOLVE-2|
            #50Y(00 00 00 00 04 00 00 00 21 1A 00 10 00 DB B5 38 02 31 95 B3 B5
                 31 90 DC B5 38 02 31 95 B2 B5 31 90 DD B5 38 02 31 95 B1 B5 31
                 90 B4 31 97 A1 11 19 06)
@@ -212,51 +337,63 @@
         |SOLVER|::|REGIONS-STRUCT|)
        |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|120 138 (DEFUN TRY-NUMBERS (POS POSSIBLE-VALUES-FOR-POSITION BOARD ...) ...)-12|
+#Y(#:|213 225 "Tenta inserir números na posição dada a partir das possibilidades fornecidas.\n\n
+Parâmetros:\n
+pos: Posição (i, j) onde o número será colocado.\n
+possible-values-for-position: Lista de possíveis valores para a posição.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+possibilities: Estrutura tridimensional de possibilidades para cada célula do tabuleiro.\n\n
+Retorno:\n
+Uma lista com dois elementos, onde o primeiro é um booleano indicando se a solução foi encontrada,\n
+e o segundo é o tabuleiro atualizado ou o estado atual do tabuleiro se não resolvido."-21|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Tenta inserir números na posição dada a partir das possibilidades fornecidas.\n\n
+Parâmetros:\n
+pos: Posição (i, j) onde o número será colocado.\n
+possible-values-for-position: Lista de possíveis valores para a posição.\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+regions-struct: Estrutura das regiões do tabuleiro.\n
+regions-board: Lista de listas representando as regiões do tabuleiro.\n
+possibilities: Estrutura tridimensional de possibilidades para cada célula do tabuleiro.\n\n
+Retorno:\n
+Uma lista com dois elementos, onde o primeiro é um booleano indicando se a solução foi encontrada,\n
+e o segundo é o tabuleiro atualizado ou o estado atual do tabuleiro se não resolvido.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|226 244 (DEFUN TRY-NUMBERS (POS POSSIBLE-VALUES-FOR-POSITION BOARD ...) ...)-22|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|TRY-NUMBERS| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|TRY-NUMBERS|
-       #107Y(00 00 00 00 06 00 00 00 26 00 DA 6B 01 B4 B4 33 03 15 93 05 21 94
-             05 95 06 AD B5 B4 B4 B4 63 2D 06 02 1C 1B E1 6B 01 AF B7 33 03 15
-             B4 AD B4 B4 B4 B4 29 06 0F 54 63 B1 40 02 19 07 15 19 0A DD 6B 01
-             AF B7 33 03 15 B2 B5 AF 6E 03 04 AC B2 B2 B5 6E 04 05 9D 5B 1C 64
-             E0 6B 01 B8 B2 33 03 15 B6 AF B6 B6 B6 B6 29 06 11 FF 9F)
-       (#Y(|SOLVER|::|TRY-NUMBERS-1|
-           #40Y(00 00 00 00 03 00 00 00 21 19 00 10 00 DB B4 38 02 31 95 B2 B4
-                31 90 DC B4 38 02 31 95 B1 B4 31 90 B3 31 97 A1 11 19 05)
-           (|SYSTEM|::|*FORMAT-CS*| "Trying numbers for position: "
-            " with possible-values-for-position: ")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        |COMMON-LISP|::|*STANDARD-OUTPUT*|
-        |SOLVER|::|IS-NUMBER-VALID-FOR-THE-POSITION|
-        #Y(|SOLVER|::|TRY-NUMBERS-2|
-           #43Y(00 00 00 00 03 00 00 00 21 19 00 10 00 DB B4 38 02 31 95 B2 B4
-                31 90 DC B4 38 02 31 95 B1 B4 31 90 DD B4 38 02 31 95 A1 11 19
-                05)
-           (|SYSTEM|::|*FORMAT-CS*| "Number " " is valid for position "
-            ". Updating board.\n")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        |SOLVER|::|UPDATE-BOARD| |SOLVER|::|SOLVE|
-        #Y(|SOLVER|::|TRY-NUMBERS-3|
-           #40Y(00 00 00 00 03 00 00 00 21 19 00 10 00 DB B4 38 02 31 95 B2 B4
-                31 90 DC B4 38 02 31 95 B1 B4 31 90 B3 31 97 A1 11 19 05)
-           (|SYSTEM|::|*FORMAT-CS*| "Backtracking from position "
-            " with number ")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-        #Y(|SOLVER|::|TRY-NUMBERS-4|
-           #43Y(00 00 00 00 03 00 00 00 21 19 00 10 00 DB B4 38 02 31 95 B2 B4
-                31 90 DC B4 38 02 31 95 B1 B4 31 90 DD B4 38 02 31 95 A1 11 19
-                05)
-           (|SYSTEM|::|*FORMAT-CS*| "Number " " is not valid for position "
-            ". Trying next possibility.\n")
-           (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)))
+       #77Y(00 00 00 00 06 00 00 00 26 00 92 05 27 63 B1 40 02 19 07 15 19 0A
+            B2 B5 AF 6E 03 01 AC B2 B2 B5 6E 04 02 9D 5B 1C 6C B6 AF B6 B6 B6
+            B6 29 06 11 00 93 05 59 94 05 95 06 AD B5 B4 B4 B4 63 2D 06 00 1C
+            53 B4 AD B4 B4 B4 B4 29 06 0F 64)
+       (|SOLVER|::|IS-NUMBER-VALID-FOR-THE-POSITION| |SOLVER|::|UPDATE-BOARD|
+        |SOLVER|::|SOLVE|)
        (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
        (|SOLVER|::|POS| |SOLVER|::|POSSIBLE-VALUES-FOR-POSITION|
         |SOLVER|::|BOARD| |SOLVER|::|REGIONS-STRUCT| |SOLVER|::|REGIONS-BOARD|
         |SOLVER|::|POSSIBILITIES|)
        |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|140 148 (DEFUN UPDATE-BOARD (BOARD POS VALUE) ...)-13|
+#Y(#:|248 256 "Atualiza o tabuleiro com o valor dado na posição especificada.\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+pos: Posição (i, j) onde o valor será colocado.\n
+value: Valor a ser inserido na posição.\n\n
+Retorno:\n
+O tabuleiro atualizado."-23|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Atualiza o tabuleiro com o valor dado na posição especificada.\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n
+pos: Posição (i, j) onde o valor será colocado.\n
+value: Valor a ser inserido na posição.\n\n
+Retorno:\n
+O tabuleiro atualizado.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|257 264 (DEFUN UPDATE-BOARD (BOARD POS VALUE) ...)-24|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|UPDATE-BOARD| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|UPDATE-BOARD|
@@ -267,20 +404,44 @@
             B1 19 09)
        (0.) (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
        (|SOLVER|::|BOARD| |SOLVER|::|POS| |SOLVER|::|VALUE|)
-       "Updates the board with the given value at the specified position." 1))
+       |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|150 152 (DEFUN FIND-EMPTY (BOARD) ...)-14|
+#Y(#:|268 274 "Percorre cada posição do tabuleiro, procurando a primeira posição com zero (a primeira célula vazia no tabuleiro).\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n\n
+Retorno:\n
+A posição (i, j) da primeira célula vazia encontrada ou NIL se não houver células vazias."-25|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Percorre cada posição do tabuleiro, procurando a primeira posição com zero (a primeira célula vazia no tabuleiro).\n\n
+Parâmetros:\n
+board: Tabuleiro representado como uma lista de listas de números.\n\n
+Retorno:\n
+A posição (i, j) da primeira célula vazia encontrada ou NIL se não houver células vazias.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|275 276 (DEFUN FIND-EMPTY (BOARD) ...)-26|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|FIND-EMPTY| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|FIND-EMPTY|
        #16Y(00 00 00 00 01 00 00 00 26 02 AD DA 30 01 19 02)
        (0. |SOLVER|::|FIND-EMPTY-IN-ROWS|)
        (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
-       (|SOLVER|::|BOARD|)
-       "Iterates through each position on the board, looking for the first position with a zero (the first empty cell on the board)."
-       1))
+       (|SOLVER|::|BOARD|) |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|154 161 (DEFUN FIND-EMPTY-IN-ROWS (ROWS ROW-INDEX) ...)-15|
+#Y(#:|280 287 "Percorre as linhas do tabuleiro.\n\n
+Parâmetros:\n
+rows: Lista de listas representando as linhas do tabuleiro.\n
+row-index: Índice da linha atual.\n\n
+Retorno:\n
+A posição (row-index, col-index) da primeira célula vazia encontrada ou NIL se não houver células vazias."-27|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Percorre as linhas do tabuleiro.\n\n
+Parâmetros:\n
+rows: Lista de listas representando as linhas do tabuleiro.\n
+row-index: Índice da linha atual.\n\n
+Retorno:\n
+A posição (row-index, col-index) da primeira célula vazia encontrada ou NIL se não houver células vazias.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|288 294 (DEFUN FIND-EMPTY-IN-ROWS (ROWS ROW-INDEX) ...)-28|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|FIND-EMPTY-IN-ROWS| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|FIND-EMPTY-IN-ROWS|
@@ -288,17 +449,28 @@
             02 75 94 02 DA 70 01 92 00 70 95 03 96 03 29 02 06 6D)
        (0. |SOLVER|::|FIND-EMPTY-IN-ROW|)
        (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
-       (|SOLVER|::|ROWS| |SOLVER|::|ROW-INDEX|)
-       "Iterates over the rows of the board." 1))
+       (|SOLVER|::|ROWS| |SOLVER|::|ROW-INDEX|) |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))
-#Y(#:|163 169 (DEFUN FIND-EMPTY-IN-ROW (ROW COL-INDEX) ...)-16|
+#Y(#:|298 305 "Percorre uma linha, retornando o índice da coluna do primeiro zero.\n\n
+Parâmetros:\n
+row: Lista representando a linha do tabuleiro.\n
+col-index: Índice da coluna atual.\n\n
+Retorno:\n
+O índice da coluna do primeiro zero encontrado ou NIL se não houver zeros na linha."-29|
+   #13Y(00 00 00 00 00 00 00 00 20 01 C5 19 01)
+   ("Percorre uma linha, retornando o índice da coluna do primeiro zero.\n\n
+Parâmetros:\n
+row: Lista representando a linha do tabuleiro.\n
+col-index: Índice da coluna atual.\n\n
+Retorno:\n
+O índice da coluna do primeiro zero encontrado ou NIL se não houver zeros na linha.")
+   |COMMON-LISP|::|NIL|)
+#Y(#:|306 311 (DEFUN FIND-EMPTY-IN-ROW (ROW COL-INDEX) ...)-30|
    #20Y(00 00 00 00 00 00 00 00 20 01 DA 2F 01 DA DC 32 9C C5 19 01)
    (|SOLVER|::|FIND-EMPTY-IN-ROW| |SYSTEM|::|REMOVE-OLD-DEFINITIONS|
     #Y(|SOLVER|::|FIND-EMPTY-IN-ROW|
        #35Y(00 00 00 00 02 00 00 00 26 03 92 02 09 00 19 03 9E 19 03 93 02 77
             94 02 8E AC 75 95 02 96 02 29 02 05 70)
        () (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|)
-       (|SOLVER|::|ROW| |SOLVER|::|COL-INDEX|)
-       "Iterates within the row, returning the column index of the first zero."
-       1))
+       (|SOLVER|::|ROW| |SOLVER|::|COL-INDEX|) |COMMON-LISP|::|NIL| 1))
    (|COMMON-LISP|::|T| |COMMON-LISP|::|T| |COMMON-LISP|::|T|))

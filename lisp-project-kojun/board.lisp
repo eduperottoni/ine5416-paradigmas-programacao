@@ -4,27 +4,16 @@
 
 (in-package :board)
 
-#|
-  Gera um exemplo de problema Kojun e seu respectivo tabuleiro de regiões para um dado tamanho.
+"Gera um exemplo de problema Kojun e seu respectivo tabuleiro de regiões para um dado tamanho.
+Esta função retorna tabuleiros predefinidos com base no tamanho especificado.
+Para tamanhos inexistentes, ela irá gerar um erro.
 
-  Esta função retorna tabuleiros predefinidos com base no tamanho especificado.
-  Para tamanhos inexistentes, ela irá gerar um erro.
+Parâmetros:
+size: O tamanho do tabuleiro de Kojun ()
 
-  Parâmetros:
-  * size - O tamanho do tabuleiro de Kojun ()
-
-  Retorna:
-  Uma tupla onde o primeiro elemento é o tabuleiro Kojun e o segundo elemento é o tabuleiro de regiões.
-
-  Exemplos:
-  > let (board, regionsBoard) = generate-kojun 6
-
-  Erros:
-  Lança um erro se o tamanho não for suportado.
-|#
+Retorna:
+Uma tupla onde o primeiro elemento é o tabuleiro Kojun e o segundo elemento é o tabuleiro de regiões"
 (defun generate-kojun (size)
-  "Generates a Kojun puzzle and its region board for a given size.
-  Returns a list where the first element is the Kojun board and the second element is the region board."
   (cond
     ((= size 6) (list board6 regions-board6))
     ((= size 8) (list board8 regions-board8))
