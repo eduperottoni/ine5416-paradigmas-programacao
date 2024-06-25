@@ -1,34 +1,37 @@
-%-- Matrizes de Entrada ------------------------------------------------------------------------------------------------------
-
 /* Módulos utilizados na solução */
 :- use_module(library(apply)).
 :- use_module(library(lists)).
 :- consult('puzzles.pl').
 
-/* Matriz 6x6 que contém todos os números iniciais do puzzle kojun, sendo 0 uma posição vazia */
+% ====== PREDICADOS DE DEFINIÇÃO DE PUZZLE ======
 
+% Predicado que devolve o tabuleiro original de 'puzzles.pl' a partir do ID do puzzle
 originalBoard(PuzzleID, Board) :-
     puzzle(PuzzleID, Board, _).
 
-/* Matriz 6x6 que define as regiões do quebra-cabeça. Essas regiões devem ser representadas por inteiros de 0 até n. */
-/* Sendo n a quantidade de regiões - 1, esses inteiros podem ser considerados o id de cada região. */
-
+% Predicado que devolve o tabuleiro de regiões de 'puzzles.pl' a partir do ID do puzzle
 regionsBoard(PuzzleID, Regions) :-
     puzzle(PuzzleID, _, Regions).
 
-%-----------------------------------------------------------------------------------------------------------------------------
+
+% ====== PREDICADOS DE PRINT ======
+
+/* Predicado para impressão de lista (recursivo) */
+printList([]).
+printList([H|T]) :- write(H), write(" "), printList(T).
+
+/* Predicado para impressão de matriz (recursivo) */
+printMatrix([]).
+printMatrix([H|T]) :- printList(H), nl, printMatrix(T).
 
 
 
-%-- Operações em Matrizes ----------------------------------------------------------------------------------------------------
 
-/* Usando recursividade para imprimir cada elemento de uma lista */
-imprimirLista([]).
-imprimirLista([H|T]) :- write(H), write(" "), imprimirLista(T).
 
-/* Usando recursividade para imprimir cada linha de uma matriz */
-imprimirMatriz([]).
-imprimirMatriz([H|T]) :- imprimirLista(H), nl, imprimirMatriz(T).
+
+
+
+
 
 /* A operação "nth0()" pode retornar o enésimo valor de uma lista */
 /* Como as matrizes utilizadas nessa solução são listas de listas, "buscarMatriz()" nos retorna o valor desejado */
@@ -186,6 +189,6 @@ kojun(PuzzleID) :-
     originalBoard(PuzzleID, MNI),
     regionsBoard(PuzzleID, RegionsBoard),
     resolverKojun(MNI, RegionsBoard, 0, 0, SolvedMatrix),
-    nl, imprimirMatriz(SolvedMatrix), nl.
+    nl, printMatrix(SolvedMatrix), nl.
 
 %-----------------------------------------------------------------------------------------------------------------------------
