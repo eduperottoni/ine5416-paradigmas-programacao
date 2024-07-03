@@ -195,7 +195,7 @@ e o segundo é o tabuleiro resolvido ou o estado atual do tabuleiro se não reso
           (list t board)) ; Return a list with two elements
         (let* ((row (car empty))
                (col (cdr empty))
-               (current-region (get-region-from-position (cons row col) regions-board))
+              ;;  (current-region (get-region-from-position (cons row col) regions-board))
                (row-possibilities (nth row possibilities))
                (empty-possibilities (if (listp row-possibilities) (nth col row-possibilities) nil)))
           ;; (format t "Empty position: (~a, ~a)~%" row col)
